@@ -14,7 +14,7 @@ s3 = boto3.client("s3", region_name="ap-south-1")
 complaints_table = dynamodb.Table("complaints")
 sessions_table = dynamodb.Table("sessions")
 
-S3_BUCKET_NAME = "civic-complaint-photos-ujjwal123"  # <-- set your actual bucket name
+S3_BUCKET_NAME = "BUCKET_NAME"  # <-- set your actual bucket name
 
 DEPARTMENTS = {
     "streetlight": "BESCOM (Electricity)",

@@ -29,7 +29,7 @@ QUESTION_FOR_FIELD = {
     "condition": "Could you briefly describe how serious this is or how it's affecting people nearby?"
 }
 
-SLACK_WEBHOOK_URL = "https://hook............"
+SLACK_WEBHOOK_URL = "https://hook/............"
 
 SENDER_EMAIL = "12345ujjwalpratap@gmail.com"
 DEPARTMENT_EMAIL = "support@nexaskilllab.com"

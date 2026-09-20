@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nagar Sahayak</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #EEF3F5;
+    --surface: #FFFFFF;
+    --surface-2: #F5F8FA;
+    --line: #D9E4E8;
+    --green: #E8735A;
+    --green-dim: rgba(232, 115, 90, 0.14);
+    --amber: #5B9BD5;
+    --amber-dim: rgba(91, 155, 213, 0.14);
+    --danger: #D64545;
+    --text: #33403D;
+    --muted: #6B7A78;
+    --muted-2: #97A6A3;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: 'Nunito', -apple-system, sans-serif;
+    background: radial-gradient(circle at 20% 0%, #F8FBFC 0%, var(--bg) 55%);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .mono { font-family: 'Space Mono', monospace; }
+
+  .phone {
+    width: 430px;
+    max-width: 100%;
+    height: 800px;
+    max-height: 92vh;
+    background: var(--surface);
+    border-radius: 28px;
+    box-shadow: 0 24px 60px rgba(91, 155, 213, 0.22), 0 0 0 1px var(--line);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .header {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F3F8FA 100%);
+    padding: 18px 20px 16px;
+    border-bottom: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .mark {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    background: linear-gradient(135deg, var(--green) 0%, #C85A42 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 14px rgba(232, 115, 90, 0.35);
+  }
+
+  .header h1 {
+    font-size: 15px;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+  }
+
+  .header .sub {
+    margin: 2px 0 0;
+    font-size: 11.5px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 0 rgba(232,115,90,0.6);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(232,115,90,0.5); }
+    70% { box-shadow: 0 0 0 6px rgba(232,115,90,0); }
+    100% { box-shadow: 0 0 0 0 rgba(232,115,90,0); }
+  }
+
+  .progress-wrap { margin-top: 14px; }
+
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9.5px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  .progress-labels span.active { color: var(--green); }
+
+  .progress-track { display: flex; gap: 4px; height: 4px; }
+
+  .progress-seg {
+    flex: 1;
+    background: var(--line);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-seg .fill {
+    height: 100%;
+    width: 0%;
+    background: var(--green);
+    border-radius: 3px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .thread {
+    flex: 1;
+    overflow-y: auto;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .row { display: flex; }
+  .row.user { justify-content: flex-end; }
+  .row.agent { justify-content: flex-start; }
+
+  .bubble {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 14px;
+    line-height: 1.45;
+    white-space: pre-wrap;
+  }
+
+  .row.user .bubble {
+    background: var(--green);
+    color: #FFFFFF;
+    font-weight: 600;
+    border-bottom-right-radius: 3px;
+  }
+
+  .row.agent .bubble {
+    background: var(--surface-2);
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-bottom-left-radius: 3px;
+  }
+
+  .attachment-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(6,35,26,0.25);
+    border-radius: 10px;
+    padding: 3px 8px;
+    font-size: 11px;
+    margin-top: 6px;
+    font-weight: 700;
+  }
+
+  .ticket-card {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 16px;
+    max-width: 88%;
+    position: relative;
+    overflow: hidden;
+    animation: stampIn 0.5s cubic-bezier(0.2, 0.8, 0.3, 1.2);
+  }
+
+  @keyframes stampIn {
+    0% { transform: scale(0.85) rotate(-2deg); opacity: 0; }
+    60% { transform: scale(1.03) rotate(0.5deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  .ticket-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--green), var(--amber));
+  }
+
+  .ticket-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .ticket-id { font-weight: 700; color: var(--green); font-size: 16px; letter-spacing: 0.5px; }
+
+  .copy-btn {
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.03);
+    color: var(--muted);
+    font-size: 10.5px;
+    padding: 4px 9px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .copy-btn:hover { background: rgba(255,255,255,0.07); color: var(--text); }
+  .copy-btn.copied { color: var(--green); border-color: var(--green); }
+
+  .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+
+  .field-box { background: rgba(0,0,0,0.18); border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px; }
+  .field-box .k { font-size: 9px; text-transform: uppercase; letter-spacing: 0.4px; color: var(--muted-2); font-weight: 700; margin-bottom: 2px; }
+  .field-box .v { font-size: 12px; color: var(--text); font-weight: 600; }
+
+  .complaint-text {
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--muted);
+    border-top: 1px dashed var(--line);
+    padding-top: 10px;
+    margin-bottom: 12px;
+  }
+
+  .stepper { display: flex; align-items: center; gap: 4px; margin-top: 4px; }
+  .step { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+  .step-dot {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--line); border: 2px solid var(--line);
+    display: flex; align-items: center; justify-content: center; font-size: 9px;
+  }
+  .step.done .step-dot { background: var(--green); border-color: var(--green); color: #FFFFFF; }
+  .step-label { font-size: 8.5px; text-transform: uppercase; letter-spacing: 0.3px; color: var(--muted-2); font-weight: 700; }
+  .step.done .step-label { color: var(--green); }
+  .step-line { flex: 0.5; height: 2px; background: var(--line); margin-bottom: 16px; }
+  .step-line.done { background: var(--green); }
+
+  .geo-card {
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(0,0,0,0.18); border: 1px solid var(--line);
+    border-radius: 10px; padding: 8px 10px; margin-top: 10px;
+  }
+  .geo-pin-wrap {
+    width: 40px; height: 40px; border-radius: 8px;
+    background:
+      radial-gradient(circle at 50% 40%, rgba(232,115,90,0.35), transparent 60%),
+      repeating-linear-gradient(0deg, transparent, transparent 6px, rgba(255,255,255,0.03) 6px, rgba(255,255,255,0.03) 7px),
+      repeating-linear-gradient(90deg, transparent, transparent 6px, rgba(255,255,255,0.03) 6px, rgba(255,255,255,0.03) 7px);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .geo-info .k { font-size: 9px; text-transform: uppercase; color: var(--muted-2); font-weight: 700; }
+  .geo-info .v { font-size: 11.5px; color: var(--text); }
+
+  .status-pill {
+    display: inline-block; padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 700; background: var(--green-dim); color: var(--green);
+  }
+
+  .typing { display: flex; gap: 4px; padding: 12px 14px; }
+  .typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); opacity: 0.5; animation: blink 1.2s infinite ease-in-out; }
+  .typing span:nth-child(2) { animation-delay: 0.15s; }
+  .typing span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes blink { 0%, 80%, 100% { opacity: 0.25; } 40% { opacity: 0.9; } }
+
+  .pending-strip {
+    display: flex; gap: 8px; padding: 10px 12px; flex-wrap: wrap;
+    border-top: 1px solid var(--line); background: var(--surface-2);
+  }
+  .pending-item { position: relative; width: 44px; height: 44px; border-radius: 8px; overflow: hidden; border: 1px solid var(--line); }
+  .pending-item img { width: 100%; height: 100%; object-fit: cover; }
+  .pending-item .remove {
+    position: absolute; top: -4px; right: -4px; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--danger); color: #fff; font-size: 10px;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+  }
+  .pending-loc {
+    display: flex; align-items: center; gap: 6px; background: var(--green-dim);
+    border: 1px solid rgba(232,115,90,0.3); border-radius: 8px; padding: 5px 9px;
+    font-size: 11px; color: var(--green); font-weight: 600;
+  }
+
+  .composer {
+    display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--line);
+    background: var(--surface); flex-shrink: 0; align-items: center;
+  }
+  .icon-btn {
+    width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line);
+    background: var(--surface-2); display: flex; align-items: center; justify-content: center;
+    cursor: pointer; flex-shrink: 0; font-size: 15px; transition: border-color 0.2s;
+  }
+  .icon-btn:hover { border-color: var(--green); }
+  .icon-btn.recording {
+    background: var(--danger);
+    border-color: var(--danger);
+    color: #FFFFFF;
+    animation: recPulse 1.2s infinite;
+  }
+  @keyframes recPulse {
+    0% { box-shadow: 0 0 0 0 rgba(214, 69, 69, 0.5); }
+    70% { box-shadow: 0 0 0 8px rgba(214, 69, 69, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(214, 69, 69, 0); }
+  }
+  .composer textarea {
+    flex: 1; border: 1px solid var(--line); background: var(--surface-2); border-radius: 18px;
+    padding: 10px 16px; font-size: 14px; outline: none; color: var(--text); min-width: 0;
+    font-family: 'Nunito', -apple-system, sans-serif; line-height: 1.4; resize: none;
+    max-height: 118px; overflow-y: auto; display: block;
+  }
+  .composer textarea::placeholder { color: var(--muted-2); }
+  .composer textarea:focus { border-color: var(--green); }
+  .composer button.send {
+    width: 42px; height: 42px; border-radius: 50%; border: none; background: var(--green);
+    color: #FFFFFF; font-size: 16px; font-weight: 700; cursor: pointer; flex-shrink: 0;
+    align-self: flex-end;
+  }
+
+  .voice-bars {
+    display: none; align-items: center; justify-content: center; gap: 3px;
+    flex: 1; height: 42px; padding: 0 14px;
+    background: var(--surface-2); border: 1.5px solid var(--danger); border-radius: 18px;
+  }
+  .voice-bars.active { display: flex; }
+  .voice-bars .bar {
+    width: 3px; min-height: 4px; background: var(--danger); border-radius: 2px;
+    transition: height 0.07s ease;
+  }
+  .voice-hint {
+    font-size: 9.5px; color: var(--danger); margin-left: 8px; font-weight: 700; white-space: nowrap;
+  }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="header">
+    <div class="header-top">
+      <div class="mark">🏛️</div>
+      <div>
+        <h1>NAGAR SAHAYAK</h1>
+        <div class="sub"><span class="live-dot"></span> Report it, we'll take it from here</div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-labels">
+        <span id="lbl-issue">Issue</span>
+        <span id="lbl-location">Location</span>
+        <span id="lbl-condition">Severity</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-seg"><div class="fill" id="seg-issue"></div></div>
+        <div class="progress-seg"><div class="fill" id="seg-location"></div></div>
+        <div class="progress-seg"><div class="fill" id="seg-condition"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="thread" id="thread">
+    <div class="row agent">
+      <div class="bubble" id="langMenuBubble">👋 Welcome! Please choose your language / अपनी भाषा चुनें / कृपया भाषा निवडा:
+
+1. English
+2. हिन्दी (Hindi)
+3. 中文 (Mandarin Chinese)
+4. Español (Spanish)
+5. Français (French)
+6. العربية (Arabic)
+7. বাংলা (Bengali)
+8. Português (Portuguese)
+9. Русский (Russian)
+10. اردو (Urdu)
+
+Type the number of your language. You can type "exit" anytime to switch back to English.</div>
+    </div>
+  </div>
+
+  <div class="pending-strip" id="pendingStrip" style="display:none;"></div>
+
+  <div class="composer">
+    <button class="icon-btn" id="micBtn" title="Speak your complaint">🎤</button>
+    <button class="icon-btn" id="photoBtn" title="Attach photo">📷</button>
+    <button class="icon-btn" id="locBtn" title="Share location">📍</button>
+    <textarea id="input" rows="1" placeholder="Describe the issue…"></textarea>
+    <div class="voice-bars" id="voiceBars"></div>
+    <button class="send" id="send" aria-label="Send">➤</button>
+  </div>
+  <input type="file" id="fileInput" accept="image/*" style="display:none;" multiple />
+</div>
+
+<script>
+  const API_BASE = "https://idx9aw95o7.execute-api.ap-south-1.amazonaws.com";
+
+  const thread = document.getElementById("thread");
+  const input = document.getElementById("input");
+  const sendBtn = document.getElementById("send");
+  const photoBtn = document.getElementById("photoBtn");
+  const locBtn = document.getElementById("locBtn");
+  const micBtn = document.getElementById("micBtn");
+  const voiceBars = document.getElementById("voiceBars");
+  const fileInput = document.getElementById("fileInput");
+  const pendingStrip = document.getElementById("pendingStrip");
+
+  let sessionId = null;
+  let pendingImageKeys = [];
+  let pendingImagePreviews = [];
+  let pendingGeo = null;
+  let uiLang = "en";
+
+  // ---- i18n ----
+  const LANG_OPTIONS = {
+    "1": { code: "en", name: "English", speech: "en-US" },
+    "2": { code: "hi", name: "हिन्दी", speech: "hi-IN" },
+    "3": { code: "zh", name: "中文", speech: "zh-CN" },
+    "4": { code: "es", name: "Español", speech: "es-ES" },
+    "5": { code: "fr", name: "Français", speech: "fr-FR" },
+    "6": { code: "ar", name: "العربية", speech: "ar-SA" },
+    "7": { code: "bn", name: "বাংলা", speech: "bn-IN" },
+    "8": { code: "pt", name: "Português", speech: "pt-PT" },
+    "9": { code: "ru", name: "Русский", speech: "ru-RU" },
+    "10": { code: "ur", name: "اردو", speech: "ur-PK" }
+  };
+  const RTL_LANGS = ["ar", "ur"];
+
+  const I18N = {
+    en: {
+      subtitle: "Report it, we'll take it from here",
+      placeholder: "Describe the issue…",
+      lblIssue: "Issue", lblLocation: "Location", lblCondition: "Severity",
+      greeting: "Namaste 🙏 Tell me about a civic problem near you — a broken streetlight, garbage, a pothole, a water leak. I'll ask a couple of quick follow-ups if needed, then file it for you.\n\nYou can attach a photo 📷, share your location 📍, or use the mic 🎤 too. Type \"status CIV-XXXXXXXX\" anytime to check an existing ticket.",
+      langSwitched: "Language set to English. Type \"exit\" anytime to return here.",
+      exitMsg: "Switched back to English.",
+      fieldIssueType: "Issue Type", fieldDepartment: "Department", fieldLocation: "Location", fieldDateFiled: "Date Filed",
+      stepSubmitted: "Submitted", stepAcknowledged: "Acknowledged", stepResolved: "Resolved",
+      copyBtn: "📋 Copy", copiedBtn: "✅ Copied",
+      ticketIntro: "Here's what I've drafted and filed on your behalf:",
+      saveTicketMsg: (id) => `Save your ticket ID above, or type "status ${id}" anytime to check progress.`,
+      errServer: "Sorry, something went wrong. Please try rephrasing.",
+      errConnection: "Couldn't reach the server. Check your connection and try again.",
+      errUpload: "Couldn't upload that photo — please try again.",
+      errLocationUnsupported: "Location isn't available in this browser.",
+      errLocationDenied: "Couldn't get your location — please allow location access and try again.",
+      errVoiceUnsupported: "Voice input isn't supported in this browser. Try Chrome or Edge, or just type your message.",
+      ticketNotFound: (id) => `I couldn't find a ticket with ID ${id}. Double-check the ID and try again.`,
+      liveGps: "Live GPS"
+    },
+    hi: {
+      subtitle: "शिकायत दर्ज करें, हम बाकी संभाल लेंगे",
+      placeholder: "समस्या बताएं…",
+      lblIssue: "समस्या", lblLocation: "स्थान", lblCondition: "गंभीरता",
+      greeting: "नमस्ते 🙏 अपने आस-पास की किसी समस्या के बारे में बताएं — खराब स्ट्रीटलाइट, कचरा, गड्ढा, या पानी का रिसाव। ज़रूरत पड़ने पर मैं कुछ और सवाल पूछूंगा, फिर शिकायत दर्ज कर दूंगा।\n\nआप फोटो 📷, लोकेशन 📍 या माइक 🎤 भी इस्तेमाल कर सकते हैं। पुरानी शिकायत जांचने के लिए \"status CIV-XXXXXXXX\" टाइप करें।",
+      langSwitched: "भाषा हिन्दी में बदल दी गई है। कभी भी \"exit\" टाइप करें अंग्रेज़ी में वापस जाने के लिए।",
+      exitMsg: "अंग्रेज़ी में वापस बदल दिया गया।",
+      fieldIssueType: "समस्या प्रकार", fieldDepartment: "विभाग", fieldLocation: "स्थान", fieldDateFiled: "तारीख़",
+      stepSubmitted: "दर्ज", stepAcknowledged: "स्वीकृत", stepResolved: "हल",
+      copyBtn: "📋 कॉपी", copiedBtn: "✅ कॉपी हो गया",
+      ticketIntro: "यह रहा आपकी ओर से दर्ज किया गया विवरण:",
+      saveTicketMsg: (id) => `अपनी टिकट आईडी सेव कर लें, या प्रगति जानने के लिए कभी भी "status ${id}" टाइप करें।`,
+      errServer: "क्षमा करें, कुछ गड़बड़ हो गई। कृपया दोबारा कोशिश करें।",
+      errConnection: "सर्वर से संपर्क नहीं हो पाया। कृपया अपना कनेक्शन जांचें।",
+      errUpload: "फोटो अपलोड नहीं हो सकी — कृपया दोबारा कोशिश करें।",
+      errLocationUnsupported: "इस ब्राउज़र में लोकेशन उपलब्ध नहीं है।",
+      errLocationDenied: "लोकेशन नहीं मिल सकी — कृपया अनुमति दें और दोबारा कोशिश करें।",
+      errVoiceUnsupported: "इस ब्राउज़र में वॉइस इनपुट उपलब्ध नहीं है। कृपया Chrome या Edge इस्तेमाल करें, या टाइप करें।",
+      ticketNotFound: (id) => `टिकट आईडी ${id} नहीं मिली। कृपया आईडी जांचें और दोबारा कोशिश करें।`,
+      liveGps: "लाइव जीपीएस"
+    },
+    zh: {
+      subtitle: "提交后，剩下的交给我们",
+      placeholder: "请描述问题…",
+      lblIssue: "问题", lblLocation: "位置", lblCondition: "严重程度",
+      greeting: "您好 🙏 请告诉我您附近的市政问题——路灯损坏、垃圾、坑洼或漏水。如有需要我会追问几个问题，然后为您提交。\n\n您也可以附上照片 📷、分享位置 📍 或使用麦克风 🎤。输入 \"status CIV-XXXXXXXX\" 可随时查询进度。",
+      langSwitched: "语言已切换为中文。随时输入 \"exit\" 返回英文。",
+      exitMsg: "已切换回英文。",
+      fieldIssueType: "问题类型", fieldDepartment: "部门", fieldLocation: "位置", fieldDateFiled: "日期",
+      stepSubmitted: "已提交", stepAcknowledged: "已受理", stepResolved: "已解决",
+      copyBtn: "📋 复制", copiedBtn: "✅ 已复制",
+      ticketIntro: "以下是为您提交的内容：",
+      saveTicketMsg: (id) => `请保存您的工单编号，随时输入 "status ${id}" 查询进度。`,
+      errServer: "抱歉，出了点问题，请重新描述。",
+      errConnection: "无法连接服务器，请检查网络后重试。",
+      errUpload: "照片上传失败，请重试。",
+      errLocationUnsupported: "此浏览器不支持定位。",
+      errLocationDenied: "无法获取位置，请允许定位权限后重试。",
+      errVoiceUnsupported: "此浏览器不支持语音输入，请使用 Chrome 或 Edge，或直接输入文字。",
+      ticketNotFound: (id) => `未找到工单 ${id}，请检查编号后重试。`,
+      liveGps: "实时定位"
+    },
+    es: {
+      subtitle: "Repórtalo, nosotros nos encargamos",
+      placeholder: "Describe el problema…",
+      lblIssue: "Problema", lblLocation: "Ubicación", lblCondition: "Gravedad",
+      greeting: "Hola 🙏 Cuéntame sobre un problema cívico cerca de ti — un poste de luz roto, basura, un bache, una fuga de agua. Te haré un par de preguntas si es necesario y luego lo reportaré.\n\nTambién puedes adjuntar una foto 📷, compartir tu ubicación 📍 o usar el micrófono 🎤. Escribe \"status CIV-XXXXXXXX\" para consultar un reporte existente.",
+      langSwitched: "Idioma cambiado a español. Escribe \"exit\" para volver al inglés.",
+      exitMsg: "Se volvió al inglés.",
+      fieldIssueType: "Tipo de problema", fieldDepartment: "Departamento", fieldLocation: "Ubicación", fieldDateFiled: "Fecha",
+      stepSubmitted: "Enviado", stepAcknowledged: "Reconocido", stepResolved: "Resuelto",
+      copyBtn: "📋 Copiar", copiedBtn: "✅ Copiado",
+      ticketIntro: "Esto es lo que redacté y presenté en tu nombre:",
+      saveTicketMsg: (id) => `Guarda tu número de ticket, o escribe "status ${id}" para ver el progreso.`,
+      errServer: "Lo siento, algo salió mal. Intenta reformular.",
+      errConnection: "No se pudo conectar al servidor. Revisa tu conexión.",
+      errUpload: "No se pudo subir la foto — intenta de nuevo.",
+      errLocationUnsupported: "La ubicación no está disponible en este navegador.",
+      errLocationDenied: "No se pudo obtener tu ubicación — permite el acceso e intenta de nuevo.",
+      errVoiceUnsupported: "La entrada de voz no es compatible con este navegador. Usa Chrome o Edge, o escribe tu mensaje.",
+      ticketNotFound: (id) => `No encontré un ticket con ID ${id}. Verifica el ID e intenta de nuevo.`,
+      liveGps: "GPS en vivo"
+    },
+    fr: {
+      subtitle: "Signalez-le, on s'occupe du reste",
+      placeholder: "Décrivez le problème…",
+      lblIssue: "Problème", lblLocation: "Lieu", lblCondition: "Gravité",
+      greeting: "Bonjour 🙏 Parlez-moi d'un problème civique près de chez vous — un lampadaire cassé, des déchets, un nid-de-poule, une fuite d'eau. Je poserai quelques questions si nécessaire, puis je le signalerai.\n\nVous pouvez aussi joindre une photo 📷, partager votre position 📍 ou utiliser le micro 🎤. Tapez \"status CIV-XXXXXXXX\" pour suivre un signalement existant.",
+      langSwitched: "Langue changée en français. Tapez \"exit\" pour revenir à l'anglais.",
+      exitMsg: "Retour à l'anglais.",
+      fieldIssueType: "Type de problème", fieldDepartment: "Département", fieldLocation: "Lieu", fieldDateFiled: "Date",
+      stepSubmitted: "Soumis", stepAcknowledged: "Reconnu", stepResolved: "Résolu",
+      copyBtn: "📋 Copier", copiedBtn: "✅ Copié",
+      ticketIntro: "Voici ce que j'ai rédigé et déposé en votre nom :",
+      saveTicketMsg: (id) => `Conservez votre numéro de ticket, ou tapez "status ${id}" pour suivre la progression.`,
+      errServer: "Désolé, un problème est survenu. Merci de reformuler.",
+      errConnection: "Impossible de contacter le serveur. Vérifiez votre connexion.",
+      errUpload: "Impossible d'envoyer la photo — réessayez.",
+      errLocationUnsupported: "La localisation n'est pas disponible sur ce navigateur.",
+      errLocationDenied: "Impossible d'obtenir votre position — autorisez l'accès et réessayez.",
+      errVoiceUnsupported: "La saisie vocale n'est pas prise en charge par ce navigateur. Utilisez Chrome ou Edge, ou tapez votre message.",
+      ticketNotFound: (id) => `Ticket ${id} introuvable. Vérifiez l'identifiant et réessayez.`,
+      liveGps: "GPS en direct"
+    },
+    ar: {
+      subtitle: "بلّغ عنها وسنتولى الباقي",
+      placeholder: "صف المشكلة…",
+      lblIssue: "المشكلة", lblLocation: "الموقع", lblCondition: "الخطورة",
+      greeting: "مرحبًا 🙏 أخبرني عن مشكلة مدنية بالقرب منك — عمود إنارة معطل، قمامة، حفرة، أو تسرب مياه. سأطرح بعض الأسئلة إذا لزم الأمر ثم أقوم بتقديم البلاغ.\n\nيمكنك أيضًا إرفاق صورة 📷 أو مشاركة موقعك 📍 أو استخدام الميكروفون 🎤. اكتب \"status CIV-XXXXXXXX\" للتحقق من بلاغ سابق في أي وقت.",
+      langSwitched: "تم تغيير اللغة إلى العربية. اكتب \"exit\" للعودة إلى الإنجليزية.",
+      exitMsg: "تم الرجوع إلى الإنجليزية.",
+      fieldIssueType: "نوع المشكلة", fieldDepartment: "الجهة المختصة", fieldLocation: "الموقع", fieldDateFiled: "التاريخ",
+      stepSubmitted: "تم الإرسال", stepAcknowledged: "تم الاستلام", stepResolved: "تم الحل",
+      copyBtn: "📋 نسخ", copiedBtn: "✅ تم النسخ",
+      ticketIntro: "إليك ما تمت صياغته وتقديمه نيابة عنك:",
+      saveTicketMsg: (id) => `احفظ رقم البلاغ، أو اكتب "status ${id}" في أي وقت لمتابعة الحالة.`,
+      errServer: "عذرًا، حدث خطأ ما. حاول إعادة الصياغة.",
+      errConnection: "تعذر الاتصال بالخادم. تحقق من اتصالك وحاول مرة أخرى.",
+      errUpload: "تعذر رفع الصورة — حاول مرة أخرى.",
+      errLocationUnsupported: "الموقع غير متاح في هذا المتصفح.",
+      errLocationDenied: "تعذر الحصول على موقعك — يرجى السماح بالوصول والمحاولة مرة أخرى.",
+      errVoiceUnsupported: "الإدخال الصوتي غير مدعوم في هذا المتصفح. استخدم Chrome أو Edge، أو اكتب رسالتك.",
+      ticketNotFound: (id) => `تعذر العثور على البلاغ رقم ${id}. تحقق من الرقم وحاول مرة أخرى.`,
+      liveGps: "الموقع المباشر"
+    },
+    bn: {
+      subtitle: "রিপোর্ট করুন, বাকিটা আমরা দেখব",
+      placeholder: "সমস্যাটি লিখুন…",
+      lblIssue: "সমস্যা", lblLocation: "অবস্থান", lblCondition: "মাত্রা",
+      greeting: "নমস্কার 🙏 আপনার আশেপাশের কোনো নাগরিক সমস্যার কথা বলুন — রাস্তার বাতি নষ্ট, আবর্জনা, গর্ত, বা পানির লিক। প্রয়োজনে আমি আরও কিছু প্রশ্ন করব, তারপর অভিযোগ দাখিল করব।\n\nআপনি ছবি 📷, লোকেশন 📍 অথবা মাইক 🎤 ব্যবহার করতে পারেন। আগের অভিযোগ জানতে \"status CIV-XXXXXXXX\" লিখুন।",
+      langSwitched: "ভাষা বাংলায় পরিবর্তিত হয়েছে। ইংরেজিতে ফিরতে যেকোনো সময় \"exit\" লিখুন।",
+      exitMsg: "ইংরেজিতে ফিরে যাওয়া হয়েছে।",
+      fieldIssueType: "সমস্যার ধরন", fieldDepartment: "বিভাগ", fieldLocation: "অবস্থান", fieldDateFiled: "তারিখ",
+      stepSubmitted: "জমা হয়েছে", stepAcknowledged: "গৃহীত", stepResolved: "সমাধান হয়েছে",
+      copyBtn: "📋 কপি", copiedBtn: "✅ কপি হয়েছে",
+      ticketIntro: "আপনার পক্ষে যা তৈরি ও দাখিল করা হয়েছে:",
+      saveTicketMsg: (id) => `আপনার টিকিট আইডি সংরক্ষণ করুন, অথবা অগ্রগতি জানতে "status ${id}" লিখুন।`,
+      errServer: "দুঃখিত, কিছু ভুল হয়েছে। আবার চেষ্টা করুন।",
+      errConnection: "সার্ভারে সংযোগ করা যায়নি। সংযোগ পরীক্ষা করুন।",
+      errUpload: "ছবি আপলোড করা যায়নি — আবার চেষ্টা করুন।",
+      errLocationUnsupported: "এই ব্রাউজারে লোকেশন উপলব্ধ নয়।",
+      errLocationDenied: "লোকেশন পাওয়া যায়নি — অনুমতি দিন এবং আবার চেষ্টা করুন।",
+      errVoiceUnsupported: "এই ব্রাউজারে ভয়েস ইনপুট সমর্থিত নয়। Chrome বা Edge ব্যবহার করুন, বা টাইপ করুন।",
+      ticketNotFound: (id) => `${id} আইডির টিকিট পাওয়া যায়নি। আইডি যাচাই করে আবার চেষ্টা করুন।`,
+      liveGps: "লাইভ জিপিএস"
+    },
+    pt: {
+      subtitle: "Reporte, nós cuidamos do resto",
+      placeholder: "Descreva o problema…",
+      lblIssue: "Problema", lblLocation: "Local", lblCondition: "Gravidade",
+      greeting: "Olá 🙏 Conte-me sobre um problema cívico perto de você — um poste de luz quebrado, lixo, um buraco, um vazamento de água. Farei algumas perguntas se necessário e depois enviarei o registro.\n\nVocê também pode anexar uma foto 📷, compartilhar sua localização 📍 ou usar o microfone 🎤. Digite \"status CIV-XXXXXXXX\" para consultar um registro existente.",
+      langSwitched: "Idioma alterado para português. Digite \"exit\" para voltar ao inglês.",
+      exitMsg: "Voltou para o inglês.",
+      fieldIssueType: "Tipo de problema", fieldDepartment: "Departamento", fieldLocation: "Local", fieldDateFiled: "Data",
+      stepSubmitted: "Enviado", stepAcknowledged: "Reconhecido", stepResolved: "Resolvido",
+      copyBtn: "📋 Copiar", copiedBtn: "✅ Copiado",
+      ticketIntro: "Aqui está o que redigi e enviei em seu nome:",
+      saveTicketMsg: (id) => `Guarde o número do seu ticket, ou digite "status ${id}" para ver o progresso.`,
+      errServer: "Desculpe, algo deu errado. Tente reformular.",
+      errConnection: "Não foi possível conectar ao servidor. Verifique sua conexão.",
+      errUpload: "Não foi possível enviar a foto — tente novamente.",
+      errLocationUnsupported: "Localização não disponível neste navegador.",
+      errLocationDenied: "Não foi possível obter sua localização — permita o acesso e tente novamente.",
+      errVoiceUnsupported: "Entrada de voz não suportada neste navegador. Use Chrome ou Edge, ou digite sua mensagem.",
+      ticketNotFound: (id) => `Não encontrei o ticket ${id}. Verifique o ID e tente novamente.`,
+      liveGps: "GPS ao vivo"
+    },
+    ru: {
+      subtitle: "Сообщите, а мы сделаем остальное",
+      placeholder: "Опишите проблему…",
+      lblIssue: "Проблема", lblLocation: "Место", lblCondition: "Серьёзность",
+      greeting: "Здравствуйте 🙏 Расскажите о городской проблеме рядом с вами — сломанный фонарь, мусор, яма или утечка воды. При необходимости я задам пару уточняющих вопросов, а затем оформлю обращение.\n\nВы также можете прикрепить фото 📷, поделиться геолокацией 📍 или использовать микрофон 🎤. Введите \"status CIV-XXXXXXXX\", чтобы проверить статус обращения.",
+      langSwitched: "Язык изменён на русский. Введите \"exit\", чтобы вернуться к английскому.",
+      exitMsg: "Возврат к английскому языку.",
+      fieldIssueType: "Тип проблемы", fieldDepartment: "Ведомство", fieldLocation: "Место", fieldDateFiled: "Дата",
+      stepSubmitted: "Отправлено", stepAcknowledged: "Принято", stepResolved: "Решено",
+      copyBtn: "📋 Копировать", copiedBtn: "✅ Скопировано",
+      ticketIntro: "Вот что было составлено и подано от вашего имени:",
+      saveTicketMsg: (id) => `Сохраните номер обращения или введите "status ${id}", чтобы проверить статус.`,
+      errServer: "Извините, что-то пошло не так. Попробуйте переформулировать.",
+      errConnection: "Не удалось подключиться к серверу. Проверьте соединение.",
+      errUpload: "Не удалось загрузить фото — попробуйте снова.",
+      errLocationUnsupported: "Геолокация недоступна в этом браузере.",
+      errLocationDenied: "Не удалось получить местоположение — разрешите доступ и попробуйте снова.",
+      errVoiceUnsupported: "Голосовой ввод не поддерживается в этом браузере. Используйте Chrome или Edge, либо введите сообщение текстом.",
+      ticketNotFound: (id) => `Обращение ${id} не найдено. Проверьте номер и попробуйте снова.`,
+      liveGps: "Живой GPS"
+    },
+    ur: {
+      subtitle: "رپورٹ کریں، باقی ہم سنبھال لیں گے",
+      placeholder: "مسئلہ بیان کریں…",
+      lblIssue: "مسئلہ", lblLocation: "مقام", lblCondition: "شدت",
+      greeting: "السلام علیکم 🙏 اپنے آس پاس کے کسی شہری مسئلے کے بارے میں بتائیں — خراب اسٹریٹ لائٹ، کچرا، گڑھا، یا پانی کا رساؤ۔ ضرورت پڑنے پر میں کچھ مزید سوالات پوچھوں گا، پھر شکایت درج کر دوں گا۔\n\nآپ تصویر 📷، مقام 📍 یا مائیک 🎤 بھی استعمال کر سکتے ہیں۔ پرانی شکایت چیک کرنے کے لیے کسی بھی وقت \"status CIV-XXXXXXXX\" لکھیں۔",
+      langSwitched: "زبان اردو میں تبدیل کر دی گئی۔ انگریزی میں واپس جانے کے لیے \"exit\" لکھیں۔",
+      exitMsg: "انگریزی میں واپس آ گئے۔",
+      fieldIssueType: "مسئلے کی قسم", fieldDepartment: "شعبہ", fieldLocation: "مقام", fieldDateFiled: "تاریخ",
+      stepSubmitted: "جمع شدہ", stepAcknowledged: "منظور شدہ", stepResolved: "حل شدہ",
+      copyBtn: "📋 کاپی", copiedBtn: "✅ کاپی ہو گیا",
+      ticketIntro: "یہ ہے جو آپ کی جانب سے تیار اور جمع کیا گیا:",
+      saveTicketMsg: (id) => `اپنی ٹکٹ آئی ڈی محفوظ کریں، یا پیش رفت جاننے کے لیے کسی بھی وقت "status ${id}" لکھیں۔`,
+      errServer: "معذرت، کچھ غلط ہو گیا۔ براہ کرم دوبارہ کوشش کریں۔",
+      errConnection: "سرور سے رابطہ نہیں ہو سکا۔ اپنا کنکشن چیک کریں۔",
+      errUpload: "تصویر اپ لوڈ نہیں ہو سکی — دوبارہ کوشش کریں۔",
+      errLocationUnsupported: "اس براؤزر میں مقام دستیاب نہیں ہے۔",
+      errLocationDenied: "آپ کا مقام حاصل نہیں ہو سکا — رسائی کی اجازت دیں اور دوبارہ کوشش کریں۔",
+      errVoiceUnsupported: "اس براؤزر میں صوتی ان پٹ دستیاب نہیں ہے۔ Chrome یا Edge استعمال کریں، یا ٹائپ کریں۔",
+      ticketNotFound: (id) => `ٹکٹ ${id} نہیں ملی۔ آئی ڈی چیک کریں اور دوبارہ کوشش کریں۔`,
+      liveGps: "لائیو جی پی ایس"
+    }
+  };
+
+  function t(key, ...args) {
+    const dict = I18N[uiLang] || I18N.en;
+    const val = dict[key] !== undefined ? dict[key] : I18N.en[key];
+    return typeof val === "function" ? val(...args) : val;
+  }
+
+  function applyLanguage(code) {
+    uiLang = I18N[code] ? code : "en";
+    document.getElementById("lbl-issue").textContent = t("lblIssue");
+    document.getElementById("lbl-location").textContent = t("lblLocation");
+    document.getElementById("lbl-condition").textContent = t("lblCondition");
+    document.querySelector(".header .sub").innerHTML = `<span class="live-dot"></span> ${t("subtitle")}`;
+    input.placeholder = t("placeholder");
+    document.documentElement.setAttribute("dir", RTL_LANGS.includes(uiLang) ? "rtl" : "ltr");
+  }
+
+  function scrollDown() { thread.scrollTop = thread.scrollHeight; }
+
+  function setProgress(collected) {
+    const map = { issue: "issue_type", location: "location", condition: "condition" };
+    Object.entries(map).forEach(([segKey, fieldKey]) => {
+      const done = collected && collected[fieldKey];
+      document.getElementById(`seg-${segKey}`).style.width = done ? "100%" : "0%";
+      document.getElementById(`lbl-${segKey}`).classList.toggle("active", !!done);
+    });
+  }
+
+  function resetProgress() { setProgress({}); }
+
+  function addUserBubble(text, attachmentsHtml = "") {
+    const row = document.createElement("div");
+    row.className = "row user";
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    bubble.textContent = text;
+    if (attachmentsHtml) bubble.innerHTML += attachmentsHtml;
+    row.appendChild(bubble);
+    thread.appendChild(row);
+    scrollDown();
+  }
+
+  function addAgentBubble(text) {
+    const row = document.createElement("div");
+    row.className = "row agent";
+    row.innerHTML = `<div class="bubble"></div>`;
+    row.querySelector(".bubble").textContent = text;
+    thread.appendChild(row);
+    scrollDown();
+  }
+
+  function showTyping() {
+    const row = document.createElement("div");
+    row.className = "row agent";
+    row.id = "typingRow";
+    row.innerHTML = `<div class="bubble typing"><span></span><span></span><span></span></div>`;
+    thread.appendChild(row);
+    scrollDown();
+  }
+
+  function hideTyping() {
+    const el = document.getElementById("typingRow");
+    if (el) el.remove();
+  }
+
+  function renderTicketCard(data) {
+    const row = document.createElement("div");
+    row.className = "row agent";
+
+    const geoHtml = data.geo ? `
+      <div class="geo-card">
+        <div class="geo-pin-wrap">📍</div>
+        <div class="geo-info">
+          <div class="k">${t("liveGps")}</div>
+          <div class="v mono">${data.geo.lat.toFixed(4)}, ${data.geo.lng.toFixed(4)}</div>
+        </div>
+      </div>` : "";
+
+    row.innerHTML = `
+      <div class="ticket-card">
+        <div class="ticket-row">
+          <div class="ticket-id mono">${data.ticket_id}</div>
+          <button class="copy-btn" data-ticket="${data.ticket_id}">${t("copyBtn")}</button>
+        </div>
+        <div class="field-grid">
+          <div class="field-box"><div class="k">${t("fieldIssueType")}</div><div class="v">${data.issue_type}</div></div>
+          <div class="field-box"><div class="k">${t("fieldDepartment")}</div><div class="v">${data.department}</div></div>
+          <div class="field-box"><div class="k">${t("fieldLocation")}</div><div class="v">${data.location || "—"}</div></div>
+          <div class="field-box"><div class="k">${t("fieldDateFiled")}</div><div class="v">${data.incident_date || "—"}</div></div>
+        </div>
+        ${geoHtml}
+        <div class="complaint-text">${data.drafted_complaint}</div>
+        <div class="stepper">
+          <div class="step done"><div class="step-dot">✓</div><div class="step-label">${t("stepSubmitted")}</div></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot"></div><div class="step-label">${t("stepAcknowledged")}</div></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot"></div><div class="step-label">${t("stepResolved")}</div></div>
+        </div>
+      </div>
+    `;
+    thread.appendChild(row);
+    scrollDown();
+
+    row.querySelector(".copy-btn").addEventListener("click", (e) => {
+      navigator.clipboard.writeText(data.ticket_id).then(() => {
+        const btn = e.currentTarget;
+        btn.textContent = t("copiedBtn");
+        btn.classList.add("copied");
+        setTimeout(() => { btn.textContent = t("copyBtn"); btn.classList.remove("copied"); }, 1500);
+      });
+    });
+  }
+
+  function renderStatusCard(data) {
+    const stageOrder = [t("stepSubmitted"), t("stepAcknowledged"), t("stepResolved")];
+    const rawStageOrder = ["Submitted", "Acknowledged", "Resolved"];
+    const currentIdx = rawStageOrder.indexOf(data.status) === -1 ? 0 : rawStageOrder.indexOf(data.status);
+
+    const stepsHtml = stageOrder.map((label, i) => {
+      const done = i <= currentIdx;
+      const lineDone = i < currentIdx;
+      const line = i < stageOrder.length - 1 ? `<div class="step-line ${lineDone ? 'done' : ''}"></div>` : "";
+      return `<div class="step ${done ? 'done' : ''}"><div class="step-dot">${done ? '✓' : ''}</div><div class="step-label">${label}</div></div>${line}`;
+    }).join("");
+
+    const row = document.createElement("div");
+    row.className = "row agent";
+    row.innerHTML = `
+      <div class="ticket-card">
+        <div class="ticket-row">
+          <div class="ticket-id mono">${data.ticket_id}</div>
+          <span class="status-pill">${stageOrder[currentIdx]}</span>
+        </div>
+        <div class="field-grid">
+          <div class="field-box"><div class="k">${t("fieldIssueType")}</div><div class="v">${data.issue_type}</div></div>
+          <div class="field-box"><div class="k">${t("fieldDepartment")}</div><div class="v">${data.department}</div></div>
+        </div>
+        <div class="stepper">${stepsHtml}</div>
+      </div>
+    `;
+    thread.appendChild(row);
+    scrollDown();
+  }
+
+  function renderPendingStrip() {
+    pendingStrip.innerHTML = "";
+    let hasAny = pendingImagePreviews.length > 0 || pendingGeo;
+
+    pendingImagePreviews.forEach((url, i) => {
+      const item = document.createElement("div");
+      item.className = "pending-item";
+      item.innerHTML = `<img src="${url}"><div class="remove" data-i="${i}">✕</div>`;
+      pendingStrip.appendChild(item);
+    });
+
+    if (pendingGeo) {
+      const loc = document.createElement("div");
+      loc.className = "pending-loc";
+      loc.textContent = `📍 ${pendingGeo.lat.toFixed(4)}, ${pendingGeo.lng.toFixed(4)}`;
+      pendingStrip.appendChild(loc);
+    }
+
+    pendingStrip.style.display = hasAny ? "flex" : "none";
+
+    pendingStrip.querySelectorAll(".remove").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const i = parseInt(btn.dataset.i);
+        pendingImageKeys.splice(i, 1);
+        pendingImagePreviews.splice(i, 1);
+        renderPendingStrip();
+      });
+    });
+  }
+
+  photoBtn.addEventListener("click", () => fileInput.click());
+
+  // ---- Textarea auto-resize (up to 5 lines, then scroll) ----
+  function autoResizeInput() {
+    input.style.height = "auto";
+    input.style.height = Math.min(input.scrollHeight, 118) + "px";
+  }
+  input.addEventListener("input", autoResizeInput);
+
+  // ---- Voice input: waveform + 4s silence auto-stop ----
+  const BAR_COUNT = 14;
+  for (let i = 0; i < BAR_COUNT; i++) {
+    const bar = document.createElement("div");
+    bar.className = "bar";
+    voiceBars.appendChild(bar);
+  }
+  const barEls = voiceBars.querySelectorAll(".bar");
+
+  let recognition = null;
+  let recognizing = false;
+  let finalTranscript = "";
+  let mediaStream = null;
+  let audioCtx = null;
+  let analyser = null;
+  let lastLoudTime = 0;
+  const SILENCE_MS = 4000;
+  const SILENCE_THRESHOLD = 10;
+
+  function showVoiceUI(show) {
+    voiceBars.classList.toggle("active", show);
+    input.style.display = show ? "none" : "block";
+  }
+
+  function stopRecording() {
+    if (recognition) { try { recognition.stop(); } catch (e) {} }
+    if (mediaStream) { mediaStream.getTracks().forEach(tr => tr.stop()); mediaStream = null; }
+    if (audioCtx) { try { audioCtx.close(); } catch (e) {} audioCtx = null; }
+    recognizing = false;
+    micBtn.classList.remove("recording");
+    showVoiceUI(false);
+  }
+
+  function analyzeLoop() {
+    if (!recognizing || !analyser) return;
+    const data = new Uint8Array(analyser.frequencyBinCount);
+    analyser.getByteFrequencyData(data);
+
+    const step = Math.floor(data.length / BAR_COUNT);
+    barEls.forEach((bar, i) => {
+      const v = data[i * step] || 0;
+      bar.style.height = Math.max(4, (v / 255) * 34) + "px";
+    });
+
+    const avg = data.reduce((a, b) => a + b, 0) / data.length;
+    if (avg > SILENCE_THRESHOLD) lastLoudTime = Date.now();
+
+    if (Date.now() - lastLoudTime > SILENCE_MS) {
+      stopRecording();
+      return;
+    }
+    requestAnimationFrame(analyzeLoop);
+  }
+
+  micBtn.addEventListener("click", async () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition || !navigator.mediaDevices) {
+      addAgentBubble(t("errVoiceUnsupported"));
+      return;
+    }
+
+    if (recognizing) {
+      stopRecording();
+      return;
+    }
+
+    finalTranscript = "";
+    const speechLang = (LANG_OPTIONS[Object.keys(LANG_OPTIONS).find(k => LANG_OPTIONS[k].code === uiLang)] || LANG_OPTIONS["1"]).speech;
+
+    recognition = new SpeechRecognition();
+    recognition.lang = speechLang;
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = () => {
+      recognizing = true;
+      lastLoudTime = Date.now();
+      micBtn.classList.add("recording");
+      showVoiceUI(true);
+    };
+    recognition.onend = () => {
+      if (recognizing) stopRecording();
+    };
+    recognition.onerror = () => {
+      stopRecording();
+    };
+    recognition.onresult = (event) => {
+      let interim = "";
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const text = event.results[i][0].transcript;
+        if (event.results[i].isFinal) finalTranscript += text + " ";
+        else interim += text;
+      }
+      input.value = (finalTranscript + interim).trim();
+      autoResizeInput();
+    };
+
+    try {
+      mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const source = audioCtx.createMediaStreamSource(mediaStream);
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 64;
+      source.connect(analyser);
+      recognition.start();
+      requestAnimationFrame(analyzeLoop);
+    } catch (err) {
+      addAgentBubble(t("errVoiceUnsupported"));
+    }
+  });
+
+  fileInput.addEventListener("change", async () => {
+    for (const file of fileInput.files) {
+      try {
+        const urlRes = await fetch(`${API_BASE}/upload-url`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ filename: file.name })
+        });
+        const { upload_url, key } = await urlRes.json();
+        await fetch(upload_url, { method: "PUT", body: file });
+        pendingImageKeys.push(key);
+        pendingImagePreviews.push(URL.createObjectURL(file));
+        renderPendingStrip();
+      } catch (err) {
+        addAgentBubble(t("errUpload"));
+      }
+    }
+    fileInput.value = "";
+  });
+
+  locBtn.addEventListener("click", () => {
+    if (!navigator.geolocation) {
+      addAgentBubble(t("errLocationUnsupported"));
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        pendingGeo = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        renderPendingStrip();
+      },
+      () => addAgentBubble(t("errLocationDenied"))
+    );
+  });
+
+  async function reportComplaint(text) {
+    let attachmentsHtml = "";
+    if (pendingImagePreviews.length) attachmentsHtml += `<div class="attachment-chip">📷 ${pendingImagePreviews.length} photo(s)</div>`;
+    if (pendingGeo) attachmentsHtml += `<div class="attachment-chip">📍 location shared</div>`;
+    addUserBubble(text, attachmentsHtml);
+
+    const imageKeysToSend = [...pendingImageKeys];
+    const geoToSend = pendingGeo;
+    pendingImageKeys = [];
+    pendingImagePreviews = [];
+    pendingGeo = null;
+    renderPendingStrip();
+
+    showTyping();
+    try {
+      const res = await fetch(`${API_BASE}/report`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text, session_id: sessionId, image_keys: imageKeysToSend, geo: geoToSend })
+      });
+      const data = await res.json();
+      hideTyping();
+
+      if (!res.ok) {
+        addAgentBubble(t("errServer"));
+        return;
+      }
+
+      if (data.needs_input) {
+        sessionId = data.session_id;
+        setProgress(data.collected);
+        addAgentBubble(data.message);
+        return;
+      }
+
+      sessionId = null;
+      setProgress({ issue_type: true, location: true, condition: true });
+      addAgentBubble(t("ticketIntro"));
+      renderTicketCard({ ...data, geo: geoToSend });
+      addAgentBubble(t("saveTicketMsg", data.ticket_id));
+      setTimeout(resetProgress, 2000);
+    } catch (err) {
+      hideTyping();
+      addAgentBubble(t("errConnection"));
+    }
+  }
+
+  async function checkStatus(ticketId) {
+    showTyping();
+    try {
+      const res = await fetch(`${API_BASE}/status?ticket_id=${encodeURIComponent(ticketId)}`);
+      const data = await res.json();
+      hideTyping();
+      if (!res.ok) {
+        addAgentBubble(t("ticketNotFound", ticketId));
+        return;
+      }
+      renderStatusCard(data);
+    } catch (err) {
+      hideTyping();
+      addAgentBubble(t("errConnection"));
+    }
+  }
+
+  function handleSend() {
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = "";
+    autoResizeInput();
+
+    // Language selection / exit commands
+    if (LANG_OPTIONS[text]) {
+      const chosen = LANG_OPTIONS[text];
+      addUserBubble(text);
+      applyLanguage(chosen.code);
+      addAgentBubble(t("greeting"));
+      return;
+    }
+    if (text.toLowerCase() === "exit") {
+      addUserBubble(text);
+      applyLanguage("en");
+      addAgentBubble(t("greeting"));
+      return;
+    }
+
+    const statusMatch = text.match(/status\s+(CIV-[A-Za-z0-9]+)/i);
+    if (statusMatch) {
+      addUserBubble(text);
+      checkStatus(statusMatch[1].toUpperCase());
+    } else {
+      reportComplaint(text);
+    }
+  }
+
+  sendBtn.addEventListener("click", handleSend);
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  });
+</script>
+
+</body>
+</html>

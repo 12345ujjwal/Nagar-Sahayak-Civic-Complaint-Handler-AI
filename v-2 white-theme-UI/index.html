@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nagar Sahayak</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #EEF3F5;
+    --surface: #FFFFFF;
+    --surface-2: #F5F8FA;
+    --line: #D9E4E8;
+    --green: #E8735A;
+    --green-dim: rgba(232, 115, 90, 0.14);
+    --amber: #5B9BD5;
+    --amber-dim: rgba(91, 155, 213, 0.14);
+    --danger: #D64545;
+    --text: #33403D;
+    --muted: #6B7A78;
+    --muted-2: #97A6A3;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: 'Nunito', -apple-system, sans-serif;
+    background: radial-gradient(circle at 20% 0%, #F8FBFC 0%, var(--bg) 55%);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .mono { font-family: 'Space Mono', monospace; }
+
+  .phone {
+    width: 430px;
+    max-width: 100%;
+    height: 800px;
+    max-height: 92vh;
+    background: var(--surface);
+    border-radius: 28px;
+    box-shadow: 0 24px 60px rgba(91, 155, 213, 0.22), 0 0 0 1px var(--line);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .header {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F3F8FA 100%);
+    padding: 18px 20px 16px;
+    border-bottom: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .mark {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    background: linear-gradient(135deg, var(--green) 0%, #C85A42 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 14px rgba(232, 115, 90, 0.35);
+  }
+
+  .header h1 {
+    font-size: 15px;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+  }
+
+  .header .sub {
+    margin: 2px 0 0;
+    font-size: 11.5px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 0 rgba(232,115,90,0.6);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(232,115,90,0.5); }
+    70% { box-shadow: 0 0 0 6px rgba(232,115,90,0); }
+    100% { box-shadow: 0 0 0 0 rgba(232,115,90,0); }
+  }
+
+  .progress-wrap { margin-top: 14px; }
+
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9.5px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  .progress-labels span.active { color: var(--green); }
+
+  .progress-track { display: flex; gap: 4px; height: 4px; }
+
+  .progress-seg {
+    flex: 1;
+    background: var(--line);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-seg .fill {
+    height: 100%;
+    width: 0%;
+    background: var(--green);
+    border-radius: 3px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .thread {
+    flex: 1;
+    overflow-y: auto;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .row { display: flex; }
+  .row.user { justify-content: flex-end; }
+  .row.agent { justify-content: flex-start; }
+
+  .bubble {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 14px;
+    line-height: 1.45;
+    white-space: pre-wrap;
+  }
+
+  .row.user .bubble {
+    background: var(--green);
+    color: #FFFFFF;
+    font-weight: 600;
+    border-bottom-right-radius: 3px;
+  }
+
+  .row.agent .bubble {
+    background: var(--surface-2);
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-bottom-left-radius: 3px;
+  }
+
+  .attachment-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(6,35,26,0.25);
+    border-radius: 10px;
+    padding: 3px 8px;
+    font-size: 11px;
+    margin-top: 6px;
+    font-weight: 700;
+  }
+
+  .ticket-card {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 16px;
+    max-width: 88%;
+    position: relative;
+    overflow: hidden;
+    animation: stampIn 0.5s cubic-bezier(0.2, 0.8, 0.3, 1.2);
+  }
+
+  @keyframes stampIn {
+    0% { transform: scale(0.85) rotate(-2deg); opacity: 0; }
+    60% { transform: scale(1.03) rotate(0.5deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  .ticket-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--green), var(--amber));
+  }
+
+  .ticket-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .ticket-id { font-weight: 700; color: var(--green); font-size: 16px; letter-spacing: 0.5px; }
+
+  .copy-btn {
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.03);
+    color: var(--muted);
+    font-size: 10.5px;
+    padding: 4px 9px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .copy-btn:hover { background: rgba(255,255,255,0.07); color: var(--text); }
+  .copy-btn.copied { color: var(--green); border-color: var(--green); }
+
+  .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+
+  .field-box { background: rgba(0,0,0,0.18); border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px; }
+  .field-box .k { font-size: 9px; text-transform: uppercase; letter-spacing: 0.4px; color: var(--muted-2); font-weight: 700; margin-bottom: 2px; }
+  .field-box .v { font-size: 12px; color: var(--text); font-weight: 600; }
+
+  .complaint-text {
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--muted);
+    border-top: 1px dashed var(--line);
+    padding-top: 10px;
+    margin-bottom: 12px;
+  }
+
+  .stepper { display: flex; align-items: center; gap: 4px; margin-top: 4px; }
+  .step { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+  .step-dot {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--line); border: 2px solid var(--line);
+    display: flex; align-items: center; justify-content: center; font-size: 9px;
+  }
+  .step.done .step-dot { background: var(--green); border-color: var(--green); color: #FFFFFF; }
+  .step-label { font-size: 8.5px; text-transform: uppercase; letter-spacing: 0.3px; color: var(--muted-2); font-weight: 700; }
+  .step.done .step-label { color: var(--green); }
+  .step-line { flex: 0.5; height: 2px; background: var(--line); margin-bottom: 16px; }
+  .step-line.done { background: var(--green); }
+
+  .geo-card {
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(0,0,0,0.18); border: 1px solid var(--line);
+    border-radius: 10px; padding: 8px 10px; margin-top: 10px;
+  }
+  .geo-pin-wrap {
+    width: 40px; height: 40px; border-radius: 8px;
+    background:
+      radial-gradient(circle at 50% 40%, rgba(232,115,90,0.35), transparent 60%),
+      repeating-linear-gradient(0deg, transparent, transparent 6px, rgba(255,255,255,0.03) 6px, rgba(255,255,255,0.03) 7px),
+      repeating-linear-gradient(90deg, transparent, transparent 6px, rgba(255,255,255,0.03) 6px, rgba(255,255,255,0.03) 7px);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .geo-info .k { font-size: 9px; text-transform: uppercase; color: var(--muted-2); font-weight: 700; }
+  .geo-info .v { font-size: 11.5px; color: var(--text); }
+
+  .status-pill {
+    display: inline-block; padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 700; background: var(--green-dim); color: var(--green);
+  }
+
+  .typing { display: flex; gap: 4px; padding: 12px 14px; }
+  .typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); opacity: 0.5; animation: blink 1.2s infinite ease-in-out; }
+  .typing span:nth-child(2) { animation-delay: 0.15s; }
+  .typing span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes blink { 0%, 80%, 100% { opacity: 0.25; } 40% { opacity: 0.9; } }
+
+  .pending-strip {
+    display: flex; gap: 8px; padding: 10px 12px; flex-wrap: wrap;
+    border-top: 1px solid var(--line); background: var(--surface-2);
+  }
+  .pending-item { position: relative; width: 44px; height: 44px; border-radius: 8px; overflow: hidden; border: 1px solid var(--line); }
+  .pending-item img { width: 100%; height: 100%; object-fit: cover; }
+  .pending-item .remove {
+    position: absolute; top: -4px; right: -4px; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--danger); color: #fff; font-size: 10px;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+  }
+  .pending-loc {
+    display: flex; align-items: center; gap: 6px; background: var(--green-dim);
+    border: 1px solid rgba(232,115,90,0.3); border-radius: 8px; padding: 5px 9px;
+    font-size: 11px; color: var(--green); font-weight: 600;
+  }
+
+  .composer {
+    display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--line);
+    background: var(--surface); flex-shrink: 0; align-items: center;
+  }
+  .icon-btn {
+    width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line);
+    background: var(--surface-2); display: flex; align-items: center; justify-content: center;
+    cursor: pointer; flex-shrink: 0; font-size: 15px; transition: border-color 0.2s;
+  }
+  .icon-btn:hover { border-color: var(--green); }
+  .composer input {
+    flex: 1; border: 1px solid var(--line); background: var(--surface-2); border-radius: 20px;
+    padding: 11px 16px; font-size: 14px; outline: none; color: var(--text); min-width: 0;
+  }
+  .composer input::placeholder { color: var(--muted-2); }
+  .composer input:focus { border-color: var(--green); }
+  .composer button.send {
+    width: 42px; height: 42px; border-radius: 50%; border: none; background: var(--green);
+    color: #FFFFFF; font-size: 16px; font-weight: 700; cursor: pointer; flex-shrink: 0;
+  }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="header">
+    <div class="header-top">
+      <div class="mark">🏛️</div>
+      <div>
+        <h1>NAGAR SAHAYAK</h1>
+        <div class="sub"><span class="live-dot"></span> Report it, we'll take it from here</div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-labels">
+        <span id="lbl-issue">Issue</span>
+        <span id="lbl-location">Location</span>
+        <span id="lbl-condition">Severity</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-seg"><div class="fill" id="seg-issue"></div></div>
+        <div class="progress-seg"><div class="fill" id="seg-location"></div></div>
+        <div class="progress-seg"><div class="fill" id="seg-condition"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="thread" id="thread">
+    <div class="row agent">
+      <div class="bubble">Namaste 🙏 Tell me about a civic problem near you — a broken streetlight, garbage, a pothole, a water leak. I'll ask a couple of quick follow-ups if needed, then file it for you.
+
+You can attach a photo 📷 or share your location 📍 too. Type "status CIV-XXXXXXXX" anytime to check an existing ticket.</div>
+    </div>
+  </div>
+
+  <div class="pending-strip" id="pendingStrip" style="display:none;"></div>
+
+  <div class="composer">
+    <button class="icon-btn" id="photoBtn" title="Attach photo">📷</button>
+    <button class="icon-btn" id="locBtn" title="Share location">📍</button>
+    <input id="input" type="text" placeholder="Describe the issue…" autocomplete="off" />
+    <button class="send" id="send" aria-label="Send">➤</button>
+  </div>
+  <input type="file" id="fileInput" accept="image/*" style="display:none;" multiple />
+</div>
+
+<script>
+  const API_BASE = "https://idx9aw95o7.execute-api.ap-south-1.amazonaws.com";
+
+  const thread = document.getElementById("thread");
+  const input = document.getElementById("input");
+  const sendBtn = document.getElementById("send");
+  const photoBtn = document.getElementById("photoBtn");
+  const locBtn = document.getElementById("locBtn");
+  const fileInput = document.getElementById("fileInput");
+  const pendingStrip = document.getElementById("pendingStrip");
+
+  let sessionId = null;
+  let pendingImageKeys = [];
+  let pendingImagePreviews = [];
+  let pendingGeo = null;
+
+  function scrollDown() { thread.scrollTop = thread.scrollHeight; }
+
+  function setProgress(collected) {
+    const map = { issue: "issue_type", location: "location", condition: "condition" };
+    Object.entries(map).forEach(([segKey, fieldKey]) => {
+      const done = collected && collected[fieldKey];
+      document.getElementById(`seg-${segKey}`).style.width = done ? "100%" : "0%";
+      document.getElementById(`lbl-${segKey}`).classList.toggle("active", !!done);
+    });
+  }
+
+  function resetProgress() { setProgress({}); }
+
+  function addUserBubble(text, attachmentsHtml = "") {
+    const row = document.createElement("div");
+    row.className = "row user";
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    bubble.textContent = text;
+    if (attachmentsHtml) bubble.innerHTML += attachmentsHtml;
+    row.appendChild(bubble);
+    thread.appendChild(row);
+    scrollDown();
+  }
+
+  function addAgentBubble(text) {
+    const row = document.createElement("div");
+    row.className = "row agent";
+    row.innerHTML = `<div class="bubble"></div>`;
+    row.querySelector(".bubble").textContent = text;
+    thread.appendChild(row);
+    scrollDown();
+  }
+
+  function showTyping() {
+    const row = document.createElement("div");
+    row.className = "row agent";
+    row.id = "typingRow";
+    row.innerHTML = `<div class="bubble typing"><span></span><span></span><span></span></div>`;
+    thread.appendChild(row);
+    scrollDown();
+  }
+
+  function hideTyping() {
+    const el = document.getElementById("typingRow");
+    if (el) el.remove();
+  }
+
+  function renderTicketCard(data) {
+    const row = document.createElement("div");
+    row.className = "row agent";
+
+    const geoHtml = data.geo ? `
+      <div class="geo-card">
+        <div class="geo-pin-wrap">📍</div>
+        <div class="geo-info">
+          <div class="k">Live GPS</div>
+          <div class="v mono">${data.geo.lat.toFixed(4)}, ${data.geo.lng.toFixed(4)}</div>
+        </div>
+      </div>` : "";
+
+    row.innerHTML = `
+      <div class="ticket-card">
+        <div class="ticket-row">
+          <div class="ticket-id mono">${data.ticket_id}</div>
+          <button class="copy-btn" data-ticket="${data.ticket_id}">📋 Copy</button>
+        </div>
+        <div class="field-grid">
+          <div class="field-box"><div class="k">Issue Type</div><div class="v">${data.issue_type}</div></div>
+          <div class="field-box"><div class="k">Department</div><div class="v">${data.department}</div></div>
+          <div class="field-box"><div class="k">Location</div><div class="v">${data.location || "—"}</div></div>
+          <div class="field-box"><div class="k">Date Filed</div><div class="v">${data.incident_date || "—"}</div></div>
+        </div>
+        ${geoHtml}
+        <div class="complaint-text">${data.drafted_complaint}</div>
+        <div class="stepper">
+          <div class="step done"><div class="step-dot">✓</div><div class="step-label">Submitted</div></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot"></div><div class="step-label">Acknowledged</div></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot"></div><div class="step-label">Resolved</div></div>
+        </div>
+      </div>
+    `;
+    thread.appendChild(row);
+    scrollDown();
+
+    row.querySelector(".copy-btn").addEventListener("click", (e) => {
+      navigator.clipboard.writeText(data.ticket_id).then(() => {
+        const btn = e.currentTarget;
+        btn.textContent = "✅ Copied";
+        btn.classList.add("copied");
+        setTimeout(() => { btn.textContent = "📋 Copy"; btn.classList.remove("copied"); }, 1500);
+      });
+    });
+  }
+
+  function renderStatusCard(data) {
+    const stageOrder = ["Submitted", "Acknowledged", "Resolved"];
+    const currentIdx = stageOrder.indexOf(data.status) === -1 ? 0 : stageOrder.indexOf(data.status);
+
+    const stepsHtml = stageOrder.map((label, i) => {
+      const done = i <= currentIdx;
+      const lineDone = i < currentIdx;
+      const line = i < stageOrder.length - 1 ? `<div class="step-line ${lineDone ? 'done' : ''}"></div>` : "";
+      return `<div class="step ${done ? 'done' : ''}"><div class="step-dot">${done ? '✓' : ''}</div><div class="step-label">${label}</div></div>${line}`;
+    }).join("");
+
+    const row = document.createElement("div");
+    row.className = "row agent";
+    row.innerHTML = `
+      <div class="ticket-card">
+        <div class="ticket-row">
+          <div class="ticket-id mono">${data.ticket_id}</div>
+          <span class="status-pill">${data.status}</span>
+        </div>
+        <div class="field-grid">
+          <div class="field-box"><div class="k">Issue Type</div><div class="v">${data.issue_type}</div></div>
+          <div class="field-box"><div class="k">Department</div><div class="v">${data.department}</div></div>
+        </div>
+        <div class="stepper">${stepsHtml}</div>
+      </div>
+    `;
+    thread.appendChild(row);
+    scrollDown();
+  }
+
+  function renderPendingStrip() {
+    pendingStrip.innerHTML = "";
+    let hasAny = pendingImagePreviews.length > 0 || pendingGeo;
+
+    pendingImagePreviews.forEach((url, i) => {
+      const item = document.createElement("div");
+      item.className = "pending-item";
+      item.innerHTML = `<img src="${url}"><div class="remove" data-i="${i}">✕</div>`;
+      pendingStrip.appendChild(item);
+    });
+
+    if (pendingGeo) {
+      const loc = document.createElement("div");
+      loc.className = "pending-loc";
+      loc.textContent = `📍 ${pendingGeo.lat.toFixed(4)}, ${pendingGeo.lng.toFixed(4)}`;
+      pendingStrip.appendChild(loc);
+    }
+
+    pendingStrip.style.display = hasAny ? "flex" : "none";
+
+    pendingStrip.querySelectorAll(".remove").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const i = parseInt(btn.dataset.i);
+        pendingImageKeys.splice(i, 1);
+        pendingImagePreviews.splice(i, 1);
+        renderPendingStrip();
+      });
+    });
+  }
+
+  photoBtn.addEventListener("click", () => fileInput.click());
+
+  fileInput.addEventListener("change", async () => {
+    for (const file of fileInput.files) {
+      try {
+        const urlRes = await fetch(`${API_BASE}/upload-url`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ filename: file.name })
+        });
+        const { upload_url, key } = await urlRes.json();
+        await fetch(upload_url, { method: "PUT", body: file });
+        pendingImageKeys.push(key);
+        pendingImagePreviews.push(URL.createObjectURL(file));
+        renderPendingStrip();
+      } catch (err) {
+        addAgentBubble("Couldn't upload that photo — please try again.");
+      }
+    }
+    fileInput.value = "";
+  });
+
+  locBtn.addEventListener("click", () => {
+    if (!navigator.geolocation) {
+      addAgentBubble("Location isn't available in this browser.");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        pendingGeo = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        renderPendingStrip();
+      },
+      () => addAgentBubble("Couldn't get your location — please allow location access and try again.")
+    );
+  });
+
+  async function reportComplaint(text) {
+    let attachmentsHtml = "";
+    if (pendingImagePreviews.length) attachmentsHtml += `<div class="attachment-chip">📷 ${pendingImagePreviews.length} photo(s)</div>`;
+    if (pendingGeo) attachmentsHtml += `<div class="attachment-chip">📍 location shared</div>`;
+    addUserBubble(text, attachmentsHtml);
+
+    const imageKeysToSend = [...pendingImageKeys];
+    const geoToSend = pendingGeo;
+    pendingImageKeys = [];
+    pendingImagePreviews = [];
+    pendingGeo = null;
+    renderPendingStrip();
+
+    showTyping();
+    try {
+      const res = await fetch(`${API_BASE}/report`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text, session_id: sessionId, image_keys: imageKeysToSend, geo: geoToSend })
+      });
+      const data = await res.json();
+      hideTyping();
+
+      if (!res.ok) {
+        addAgentBubble("Sorry, something went wrong. Please try rephrasing.");
+        return;
+      }
+
+      if (data.needs_input) {
+        sessionId = data.session_id;
+        setProgress(data.collected);
+        addAgentBubble(data.message);
+        return;
+      }
+
+      sessionId = null;
+      setProgress({ issue_type: true, location: true, condition: true });
+      addAgentBubble("Here's what I've drafted and filed on your behalf:");
+      renderTicketCard({ ...data, geo: geoToSend });
+      addAgentBubble(`Save your ticket ID above, or type "status ${data.ticket_id}" anytime to check progress.`);
+      setTimeout(resetProgress, 2000);
+    } catch (err) {
+      hideTyping();
+      addAgentBubble("Couldn't reach the server. Check your connection and try again.");
+    }
+  }
+
+  async function checkStatus(ticketId) {
+    showTyping();
+    try {
+      const res = await fetch(`${API_BASE}/status?ticket_id=${encodeURIComponent(ticketId)}`);
+      const data = await res.json();
+      hideTyping();
+      if (!res.ok) {
+        addAgentBubble(`I couldn't find a ticket with ID ${ticketId}. Double-check the ID and try again.`);
+        return;
+      }
+      renderStatusCard(data);
+    } catch (err) {
+      hideTyping();
+      addAgentBubble("Couldn't reach the server. Check your connection and try again.");
+    }
+  }
+
+  function handleSend() {
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = "";
+
+    const statusMatch = text.match(/status\s+(CIV-[A-Za-z0-9]+)/i);
+    if (statusMatch) {
+      addUserBubble(text);
+      checkStatus(statusMatch[1].toUpperCase());
+    } else {
+      reportComplaint(text);
+    }
+  }
+
+  sendBtn.addEventListener("click", handleSend);
+  input.addEventListener("keydown", (e) => { if (e.key === "Enter") handleSend(); });
+</script>
+
+</body>
+</html>

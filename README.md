@@ -152,6 +152,7 @@ flowchart TD
 <img width="1154" height="786" alt="Screenshot from 2026-09-20 12-55-16" src="https://github.com/user-attachments/assets/7faa102a-5e87-486b-8d77-2c34f4720156" />
 
 ### Slack and Mail Notification
+<img width="1438" height="721" alt="Screenshot from 2026-09-20 13-19-43" src="https://github.com/user-attachments/assets/6b8d2b30-8e06-4595-9bf7-de0ba346388d" />
 
 ---
 

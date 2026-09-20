@@ -142,11 +142,16 @@ flowchart TD
 
 ## 📸 Screenshots
 
-> _Add screenshots or a GIF walkthrough here before submission — judges respond strongly to visuals since there's no live demo, only the video and repo._
+## Citizen Chat 
 
-| Citizen Chat | Admin Console | Map View |
-|---|---|---|
-| _screenshot here_ | _screenshot here_ | _screenshot here_ |
+|<img width="513" height="911" alt="Screenshot from 2026-09-20 12-51-03" src="https://github.com/user-attachments/assets/298e9c4f-0825-4c37-89dd-544b3438aaeb" /><img width="513" height="911" alt="Screenshot from 2026-09-20 12-52-25" src="https://github.com/user-attachments/assets/d5ede4b8-b55e-49cd-96e5-fbf6d222d577" />
+
+## Admin Console 
+
+<img width="1154" height="786" alt="Screenshot from 2026-09-20 12-54-30" src="https://github.com/user-attachments/assets/298503e4-2d65-4eb8-bb25-376e3290e329" />
+
+## Map View
+<img width="1154" height="786" alt="Screenshot from 2026-09-20 12-55-16" src="https://github.com/user-attachments/assets/7faa102a-5e87-486b-8d77-2c34f4720156" />
 
 ---
 
@@ -248,12 +253,8 @@ Genuine first-time hurdles from this build (kept honest, not polished):
 
 ---
 
-## 👥 Team
+## 👥 Build By
 
-Built by **[Your Name / Team Name]** for WeMakeDevs — AWS First Commit Hackathon 2026.
+**Ujjwal Pratap Singh** for WeMakeDevs — AWS First Commit Hackathon 2026.
 
 ---
-
-## 📄 License
-
-MIT — see [LICENSE](./LICENSE) for details.

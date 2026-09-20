@@ -7,8 +7,6 @@ Built for **WeMakeDevs — AWS First Commit Hackathon 2026** (Ship It track)
 
 [![AWS](https://img.shields.io/badge/Built%20with-AWS-FF9900?logo=amazonaws&logoColor=white)](https://aws.amazon.com)
 [![Bedrock](https://img.shields.io/badge/Powered%20by-Amazon%20Bedrock-232F3E?logo=amazonaws&logoColor=white)](https://aws.amazon.com/bedrock/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
-
 ---
 
 ## 📖 Table of Contents
